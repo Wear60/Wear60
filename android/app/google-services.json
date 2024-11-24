@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "262229963964",
+    "project_id": "wear60-1e512",
+    "storage_bucket": "wear60-1e512.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:262229963964:android:d47fbecf72fa0bb2720cb9",
+        "android_client_info": {
+          "package_name": "com.wear60.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "262229963964-b985uuou6afntnngr89rku08i18jdsqe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmlGQafM0cL68wxtWrDYfT_OrJ4nQ3hP4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "262229963964-b985uuou6afntnngr89rku08i18jdsqe.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "262229963964-lvq5vjgoe2b7i9jktuqnbmlc03mpjgh7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterGoogleAuthDemo"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

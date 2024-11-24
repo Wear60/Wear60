@@ -1,0 +1,22 @@
+# Flutter/Dart/Pub related
+.dart_tool/
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+pubspec_overrides.yaml
+
+# Build outputs
+/build/
+ios/Pods/
+ios/.symlinks/
+android/app/build/
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+
+# Miscellaneous
+*.log
+.DS_Store
+*.lock

@@ -43,19 +43,19 @@ class ShopHome extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       children: const [
                         CategoryItem(
-                          imageUrl: 'https://cdn.builder.io/api/v1/image/assets/TEMP/cfcef179de5b52367196bf656e40c79cbf8ffbf318485bec125c158e02aacd0b?placeholderIfAbsent=true&apiKey=303f4e9c2e3548e9bc5a09fc673fa272',
+                          image: 'https://cdn.builder.io/api/v1/image/assets/TEMP/cfcef179de5b52367196bf656e40c79cbf8ffbf318485bec125c158e02aacd0b?placeholderIfAbsent=true&apiKey=303f4e9c2e3548e9bc5a09fc673fa272',
                           label: 'Women',
                         ),
                         CategoryItem(
-                          imageUrl: 'https://cdn.builder.io/api/v1/image/assets/TEMP/577c350c5bd83c4fd5d7b5fe688723003264295ce8d4cbc6b6ed1fc54a2b96bc?placeholderIfAbsent=true&apiKey=303f4e9c2e3548e9bc5a09fc673fa272',
+                          image: 'https://cdn.builder.io/api/v1/image/assets/TEMP/577c350c5bd83c4fd5d7b5fe688723003264295ce8d4cbc6b6ed1fc54a2b96bc?placeholderIfAbsent=true&apiKey=303f4e9c2e3548e9bc5a09fc673fa272',
                           label: 'Men',
                         ),
                         CategoryItem(
-                          imageUrl: 'https://cdn.builder.io/api/v1/image/assets/TEMP/689c019dc1e11629f7e159355935dc8ad278e402d2266872ee8b2e97d5213d6b?placeholderIfAbsent=true&apiKey=303f4e9c2e3548e9bc5a09fc673fa272',
+                          image: 'https://cdn.builder.io/api/v1/image/assets/TEMP/689c019dc1e11629f7e159355935dc8ad278e402d2266872ee8b2e97d5213d6b?placeholderIfAbsent=true&apiKey=303f4e9c2e3548e9bc5a09fc673fa272',
                           label: 'Teens',
                         ),
                         CategoryItem(
-                          imageUrl: 'https://cdn.builder.io/api/v1/image/assets/TEMP/daf16f1ffeec602c194f070f820e04a021dd9b24af07aed2312ff43dce058214?placeholderIfAbsent=true&apiKey=303f4e9c2e3548e9bc5a09fc673fa272',
+                          image: 'https://cdn.builder.io/api/v1/image/assets/TEMP/daf16f1ffeec602c194f070f820e04a021dd9b24af07aed2312ff43dce058214?placeholderIfAbsent=true&apiKey=303f4e9c2e3548e9bc5a09fc673fa272',
                           label: 'Kids',
                         ),
                       ],

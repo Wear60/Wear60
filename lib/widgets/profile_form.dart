@@ -12,7 +12,7 @@ class ProfileForm extends StatelessWidget {
   final Function(String) onPincodeChanged;
 
   const ProfileForm({
-    Key? key,
+    super.key,
     required this.initialName,
     required this.initialEmail,
     required this.initialLocation,
@@ -22,7 +22,7 @@ class ProfileForm extends StatelessWidget {
     required this.onStreetChanged,
     required this.onCityChanged,
     required this.onPincodeChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

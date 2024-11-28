@@ -40,6 +40,12 @@ dependencies:
   google_sign_in: ^6.2.2
   sign_in_button: ^3.2.0
   flutter_svg: ^2.0.15
+  infinite_scroll_pagination: ^4.1.0
+  http: ^1.2.2
+  supabase_flutter: ^2.8.1
+  supabase: ^2.6.0
+  provider: ^6.1.2
+  confetti: ^0.8.0
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +74,43 @@ flutter:
     - assets/logo.png
     - assets/order_icon.svg
     - assets/coupon_icon.svg
+    - assets/banner.png
+    - assets/prod1.png
+    - assets/prod2.png
+    - assets/prod3.png
+    - assets/prod4.png
+    - assets/search.png
+    - assets/cart.png
+    - assets/heart.png
+    - assets/promo.png
+    - assets/realbanner.png
+    - assets/allensolley.png
+    - assets/allensolley1.png
+    - assets/bewakoof.png
+    - assets/bewakoof1.png
+    - assets/levis.png
+    - assets/levis1.png
+    - assets/max.png
+    - assets/max1.png
+    - assets/nike.png
+    - assets/nike1.png
+    - assets/puma.png
+    - assets/puma1.png
+    - assets/scaledstore.png
+    - assets/thesouledstore1.png
+    - assets/zara.png
+    - assets/zara1.png
+    - assets/men.png
+    - assets/women.png
+    - assets/kids.png
+    - assets/teen.png
+    - assets/baby.png
+    - assets/heart_filled.png
+    - assets/dress1.png
+    - assets/dress2.png
+
+
+
       # - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

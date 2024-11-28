@@ -7,11 +7,11 @@ class ProfileMenuItem extends StatelessWidget {
   final String iconUrl;
 
   const ProfileMenuItem({
-    Key? key,
+    super.key,
     required this.title,
     required this.subtitle,
     required this.iconUrl,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

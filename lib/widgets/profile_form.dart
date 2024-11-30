@@ -1,6 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase/supabase.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase;
 
-class ProfileForm extends StatelessWidget {
+class ProfileForm extends StatefulWidget {
   final String initialName;
   final String initialEmail;
   final String initialLocation;
@@ -25,6 +29,52 @@ class ProfileForm extends StatelessWidget {
   });
 
   @override
+  _ProfileFormState createState() => _ProfileFormState();
+}
+class _ProfileFormState extends State<ProfileForm> {
+  String phoneNumber = '';
+  String street = '';
+  String city = '';
+  String pincode = '';
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize Firebase and fetch phone number
+    _fetchPhoneNumber();
+  }
+
+  // Fetch phone number from FirebaseAuth user
+  void _fetchPhoneNumber() async {
+    firebase.User? fbUser = firebase.FirebaseAuth.instance.currentUser;
+
+    if (fbUser != null) {
+      // Print the authentication provider data for debugging
+      print("User Provider Data: ${fbUser.providerData}");
+      print("User Email: ${fbUser.email}");
+      String? phoneNumber = fbUser.phoneNumber;
+      print("User Phone Number: $phoneNumber");
+
+      // Check if the user has a phone number
+      if (fbUser.phoneNumber != null && fbUser.phoneNumber!.isNotEmpty) {
+        setState(() {
+          phoneNumber = fbUser.phoneNumber!;
+        });
+      } else {
+        // Handle case where phone number is not available
+        setState(() {
+          phoneNumber = 'Not Available'; // Or leave empty string if preferred
+        });
+      }
+    } else {
+      // Handle case where the user is not logged in
+      setState(() {
+        phoneNumber = 'User not logged in';
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       width: 362,
@@ -39,32 +89,61 @@ class ProfileForm extends StatelessWidget {
           children: [
             _buildFormField(
               label: 'Name',
-              initialValue: initialName,
-              onChanged: onNameChanged,
+              initialValue: widget.initialName,
+              onChanged: widget.onNameChanged,
             ),
             const SizedBox(height: 10),
             _buildFormField(
               label: 'Email',
-              initialValue: initialEmail,
-              onChanged: onEmailChanged,
+              initialValue: widget.initialEmail,
+              onChanged: widget.onEmailChanged,
               keyboardType: TextInputType.emailAddress,
             ),
             const SizedBox(height: 13),
             _buildFormField(
               label: 'Location',
-              initialValue: initialLocation,
-              onChanged: onLocationChanged,
+              initialValue: widget.initialLocation,
+              onChanged: widget.onLocationChanged,
             ),
             const SizedBox(height: 4),
-            _buildTextField('Street name and Locality', onChanged: onStreetChanged),
+            _buildTextField('Street name and Locality', onChanged: (value) {
+              setState(() {
+                street = value;
+              });
+            }),
             const SizedBox(height: 4),
-            _buildTextField('City', onChanged: onCityChanged),
+            _buildTextField('City', onChanged: (value) {
+              setState(() {
+                city = value;
+              });
+            }),
             const SizedBox(height: 4),
-            _buildTextField('Pincode', onChanged: onPincodeChanged),
+            _buildTextField('Pincode', onChanged: (value) {
+              setState(() {
+                pincode = value;
+              });
+            }),
+            const SizedBox(height: 10),
+            _buildFormField(
+              label: 'Phone Number',
+              initialValue: phoneNumber,
+              onChanged: (value) {},
+              keyboardType: TextInputType.phone,
+            ),
             const SizedBox(height: 32),
             Center(
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  _updateProfile(
+                    context,
+                    widget.initialEmail,
+                    widget.initialName,
+                    widget.initialLocation,
+                    street,
+                    city,
+                    pincode,
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFD35400),
                   padding: const EdgeInsets.symmetric(
@@ -147,5 +226,42 @@ class ProfileForm extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  // Updating profile in Supabase
+  void _updateProfile(BuildContext context, String email, String name, String location, String street, String city, String pincode) async {
+    final user = Supabase.instance.client;
+    firebase.User? fbUser = firebase.FirebaseAuth.instance.currentUser;
+
+    // Debugging: Check if the user is authenticated in both Supabase and Firebase
+    print("Supabase user: $user");
+    print("Firebase user: $fbUser");
+
+    if (user == null || fbUser == null) {
+      print("User is not logged in or authentication failed");
+      return;
+    }
+
+    final response = await Supabase.instance.client
+        .from('customer')
+        .upsert({
+          'name': name,
+          'email': email,
+          'address': '$location $street $city $pincode', // Concatenated properly as a string
+        });
+
+    if (response.error != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to update profile: ${response.error?.message}'),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Profile updated successfully'),
+        ),
+      );
+    }
   }
 }

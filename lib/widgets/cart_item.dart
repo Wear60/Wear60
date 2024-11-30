@@ -1,219 +1,116 @@
 import 'package:flutter/material.dart';
-import '../models/cart_item.dart'; // Import your CartItem model
+import '../models/cart_item.dart'; // Import CartItem model
 
 class CartItemWidget extends StatelessWidget {
-  final CartItem item; // Expecting a CartItem object
+  final CartItem item;
+  final Function(int) onQuantityChanged; // Callback to update quantity
+  final VoidCallback onDelete; // Callback to delete item
 
   const CartItemWidget({
     Key? key,
-    required this.item, // Pass CartItem object here
+    required this.item,
+    required this.onQuantityChanged,
+    required this.onDelete,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: Color(0x1A000000)),
-        ),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(5),
-            child: Image.asset(
-              item.image, // Accessing image from CartItem
-              width: 110,
-              height: 130,
-              fit: BoxFit.cover,
-            ),
-          ),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      item.title, // Accessing title from CartItem
-                      style: const TextStyle(
-                        fontSize: 15,
-                        color: Color(0xFF626262),
-                      ),
-                    ),
-                    const Text(
-                      '₹FP',
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF3D3D3D),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 11),
-                Row(
-                  children: [
-                    Text(
-                      '₹${item.price}', // Accessing price from CartItem
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Color(0xFF969696),
-                      ),
-                    ),
-                    const SizedBox(width: 9),
-                    const Text(
-                      '|',
-                      style: TextStyle(
-                        fontSize: 9,
-                        color: Color(0xFF969696),
-                      ),
-                    ),
-                    const SizedBox(width: 9),
-                    Text(
-                      item.isInStock ? 'In Stock' : 'Out of Stock',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: item.isInStock
-                            ? const Color(0xFF1D9E03)
-                            : Colors.red,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 9),
-                Row(
-                  children: [
-                    const Expanded(
-                      child: QuantitySelector(),
-                    ),
-                    const SizedBox(width: 33),
-                    const Expanded(
-                      child: SizeSelector(),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class QuantitySelector extends StatelessWidget {
-  const QuantitySelector({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const Text(
-          'Qty:',
-          style: TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-            color: Color(0xFF626262),
-          ),
-        ),
-        const SizedBox(width: 5),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 1),
-          decoration: BoxDecoration(
-            border: Border.all(color: const Color(0x33000000)),
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: const Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                '1',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              SizedBox(width: 13),
-              Text(
-                '+',
-                style: TextStyle(fontSize: 15),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class SizeSelector extends StatelessWidget {
-  const SizeSelector({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Row(
           children: [
-            const Text(
-              'Size:',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: Color(0xFF626262),
+            // Product Image
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.network(
+                item.image,
+                width: 100,
+                height: 100,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Center(
+                    child: Icon(
+                      Icons.error_outline,
+                      color: Colors.red,
+                    ),
+                  );
+                },
               ),
             ),
-            const SizedBox(width: 5),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 1),
-              decoration: BoxDecoration(
-                border: Border.all(color: const Color(0x33000000)),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
+            const SizedBox(width: 16),
+            // Product Details
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'S',
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
+                    item.title,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    '\$${item.price.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey,
                     ),
                   ),
-                  SizedBox(width: 10),
-                  Text(
-                    '+',
-                    style: TextStyle(fontSize: 15),
+                  const SizedBox(height: 8),
+                  // Quantity and Stock status
+                  Row(
+                    children: [
+                      if (item.isInStock)
+                        // Quantity Selector
+                        Row(
+                          children: [
+                            IconButton(
+                              onPressed: item.quantity > 1
+                                  ? () {
+                                      onQuantityChanged(item.quantity - 1);
+                                    }
+                                  : null,
+                              icon: const Icon(Icons.remove),
+                            ),
+                            Text(
+                              item.quantity.toString(),
+                              style: const TextStyle(fontSize: 14),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                onQuantityChanged(item.quantity + 1);
+                              },
+                              icon: const Icon(Icons.add),
+                            ),
+                          ],
+                        ),
+                      if (!item.isInStock)
+                        Text(
+                          'Out of stock',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                    ],
                   ),
                 ],
               ),
             ),
+            // Remove from Cart button
+            IconButton(
+              onPressed: onDelete,
+              icon: const Icon(
+                Icons.delete_outline,
+                color: Colors.red,
+              ),
+            ),
           ],
         ),
-        TextButton.icon(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.delete_outline,
-            size: 14,
-            color: Color(0xFF626262),
-          ),
-          label: const Text(
-            'Delete',
-            style: TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.w500,
-              color: Color(0xFF626262),
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

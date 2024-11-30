@@ -1,15 +1,32 @@
-// lib/models/cart_item.dart
-
 class CartItem {
-  final String image;
+  final String id;
   final String title;
-  final String price;
-  final bool isInStock; // Add isInStock property
+  final String image;
+  final double price;
+  final int quantity;
+  final bool isInStock;
+  final String? size;
 
   CartItem({
-    required this.image,
+    required this.id,
     required this.title,
+    required this.image,
     required this.price,
-    required this.isInStock, // Initialize isInStock in the constructor
+    this.quantity = 1,
+    this.isInStock = true,
+    this.size,
   });
+
+  // Optional: Factory constructor to create from Supabase or other DB
+  factory CartItem.fromSupabase(Map<String, dynamic> data) {
+    return CartItem(
+      id: data['id'] as String,
+      title: data['title'] as String,
+      image: data['image'] as String,
+      price: (data['price'] as double).toDouble(),
+      quantity: data['quantity'] as int,
+      isInStock: data['is_in_stock'] as bool,
+      size: data['size'],
+    );
+  }
 }

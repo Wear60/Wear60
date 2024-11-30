@@ -1,3 +1,4 @@
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_auth_demo/firebase_options.dart';
@@ -18,14 +19,16 @@ Future<void> main() async {
   }
 
   // Initialize Supabase
-  // try {
-  //   await Supabase.initialize(
-  //     url: 'https://yqvlirynskenmryxmjtv.supabase.co',
-  //     anonKey: 'your-supabase-key-here',
-  //   );
-  // } catch (e) {
-  //   print("Supabase initialization failed: $e");
-  // }
+  try {
+    await Supabase.initialize(
+      url:'https://yqvlirynskenmryxmjtv.supabase.co',
+      anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlxdmxpcnluc2tlbm1yeXhtanR2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI2MTQ1MjUsImV4cCI6MjA0ODE5MDUyNX0.DtfkIu2oFOg-93yJG5ygtapd5IpG59_d8Bd_ad7vOtA',
+    );
+  } catch (e) {
+    print("Supabase initialization failed: $e");
+  }
+
+
 
   // Wrap the app with MultiProvider to provide CartProvider to the entire widget tree
   runApp(
@@ -49,3 +52,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+
